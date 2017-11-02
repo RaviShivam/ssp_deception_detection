@@ -1,5 +1,6 @@
 data_audio/
 data_video/
+csv_images/
 .idea/
 *.iml
 
