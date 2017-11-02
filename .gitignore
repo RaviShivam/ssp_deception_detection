@@ -1,6 +1,7 @@
 data_audio/
 data_video/
 csv_images/
+audio_models/
 .idea/
 *.iml
 
