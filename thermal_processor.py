@@ -37,18 +37,9 @@ def csv_looper():
             yield pd.read_csv("{}/{}".format(images_path, f), header=None).as_matrix()
 
 
-def save_as_image(image_matrix, name="temp.png"):
-    oldmin, oldmax= image_matrix.min(), image_matrix.max()
-    newmin, newmax= 0, 255
-    image_matrix = (((image_matrix-oldmin)*(newmax-newmin))/(oldmax-oldmin)) + newmin
-    image_matrix = map(lambda arr: map(lambda x: int(x), arr), image_matrix)
-    png.fromarray(image_matrix, 'L').save(name)
-
-
 csv_generator = csv_looper()
 frame_1 = csv_generator.next()
 frame_1[frame_1 < 30] = 0
-save_as_image(frame_1)
 frame_1 = frame_1[np.where(frame_1 != 0)].flatten()
 features = np.array([frame_1.min(), frame_1.max(), np.mean(frame_1)])
 features = np.append(features, features[1] - features[0])
@@ -61,3 +52,12 @@ features = preprocessing.scale(features)
 # plt.hist(frame_1, bins)
 # plt.savefig('hist.png', dpi=1000)
 # plt.show()
+
+def save_as_image(image_matrix, name="temp.png"):
+    oldmin, oldmax= image_matrix.min(), image_matrix.max()
+    newmin, newmax= 0, 255
+    image_matrix = (((image_matrix-oldmin)*(newmax-newmin))/(oldmax-oldmin)) + newmin
+    image_matrix = map(lambda arr: map(lambda x: int(x), arr), image_matrix)
+    png.fromarray(image_matrix, 'L').save(name)
+
+
