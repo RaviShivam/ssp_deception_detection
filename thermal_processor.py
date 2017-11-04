@@ -37,6 +37,12 @@ def csv_looper():
             yield pd.read_csv("{}/{}".format(images_path, f), header=None).as_matrix()
 
 
+def save_as_image(image_matrix, name="temp.png"):
+    oldmin, oldmax= image_matrix.min(), image_matrix.max()
+    newmin, newmax= 0, 255
+    image_matrix = (((image_matrix-oldmin)*(newmax-newmin))/(oldmax-oldmin)) + newmin
+    image_matrix = map(lambda arr: map(lambda x: int(x), arr), image_matrix)
+    png.fromarray(image_matrix, 'L').save(name)
 # csv_generator = csv_looper()
 # frame_1 = csv_generator.next()
 
@@ -56,11 +62,5 @@ save_as_image(frame_1, name="arthur_filter.png")
 # plt.savefig('hist.png', dpi=1000)
 # plt.show()
 
-def save_as_image(image_matrix, name="temp.png"):
-    oldmin, oldmax= image_matrix.min(), image_matrix.max()
-    newmin, newmax= 0, 255
-    image_matrix = (((image_matrix-oldmin)*(newmax-newmin))/(oldmax-oldmin)) + newmin
-    image_matrix = map(lambda arr: map(lambda x: int(x), arr), image_matrix)
-    png.fromarray(image_matrix, 'L').save(name)
 
 
