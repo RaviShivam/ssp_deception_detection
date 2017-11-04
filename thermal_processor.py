@@ -37,15 +37,18 @@ def csv_looper():
             yield pd.read_csv("{}/{}".format(images_path, f), header=None).as_matrix()
 
 
-csv_generator = csv_looper()
-frame_1 = csv_generator.next()
+# csv_generator = csv_looper()
+# frame_1 = csv_generator.next()
+
+frame_1 = pd.read_csv("SSP-000009_20.csv", header=None).as_matrix()
 frame_1[frame_1 < 30] = 0
-frame_1 = frame_1[np.where(frame_1 != 0)].flatten()
-features = np.array([frame_1.min(), frame_1.max(), np.mean(frame_1)])
-features = np.append(features, features[1] - features[0])
-bins_places = np.histogram(frame_1, np.linspace(30, 37.0, 101))[0]
-features = np.concatenate((features, bins_places))
-features = preprocessing.scale(features)
+save_as_image(frame_1, name="arthur_filter.png")
+# frame_1 = frame_1[np.where(frame_1 != 0)].flatten()
+# features = np.array([frame_1.min(), frame_1.max(), np.mean(frame_1)])
+# features = np.append(features, features[1] - features[0])
+# bins_places = np.histogram(frame_1, np.linspace(30, 37.0, 101))[0]
+# features = np.concatenate((features, bins_places))
+# features = preprocessing.scale(features)
 # print features.mean(axis=0)
 
 # bins = np.linspace(30, 37.0, 200)

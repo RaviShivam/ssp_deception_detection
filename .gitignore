@@ -6,3 +6,4 @@ audio_models/
 *.iml
 .ipynb_checkpoints/
 thermal_images
+*.png

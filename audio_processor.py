@@ -27,6 +27,7 @@ try:
         opperations = []
         for filepath in glob(lies + os.path.sep + 'sub' + str(i) + '_' + '*.wav'):
             a = (filepath, fold + os.path.sep + "lie" + os.path.sep + os.path.basename(filepath))
+            # print a
             os.rename(a[0], a[1])
             opperations.append(a)
         for filepath in glob(truth + os.path.sep + 'sub' + str(i) + '_' + '*.wav'):
@@ -36,17 +37,18 @@ try:
 
         # training/modeling
         if glob(fold + os.path.sep + "lie" + os.path.sep + '*.wav') != []:
-            aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "svm", "audio_models/svm/svm", False)
-            aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "knn", "audio_models/knn/knn", False)
-            aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "randomforest", "audio_models/randomforest/randomforest", False)
-            aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "gradientboosting", "audio_models/gradientboosting/gradientboosting", False)
-            aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "extratrees", "audio_models/extratrees/extratrees", False)
+            aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "svm", "audio_models/svm/svm", True)
+            # aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "knn", "audio_models/knn/knn", False)
+            # aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "randomforest", "audio_models/randomforest/randomforest", False)
+            # aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "gradientboosting", "audio_models/gradientboosting/gradientboosting", False)
+            # aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "extratrees", "audio_models/extratrees/extratrees", False)
 
-            aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/svm/svm", "svm")
-            aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/knn/knn", "knn")
-            aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/randomforest/randomforest", "randomforest")
-            aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/gradientboosting/gradientboosting", "gradientboosting")
-            aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/extratrees/extratrees", "extratrees")
+            print a[1]
+            print aT.fileClassification(a[1], "audio_models/svm/svm", "svm")
+            # aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/knn/knn", "knn")
+            # aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/randomforest/randomforest", "randomforest")
+            # aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/gradientboosting/gradientboosting", "gradientboosting")
+            # aT.fileClassification("data_audio/truth/sub1_1.wav", "audio_models/extratrees/extratrees", "extratrees")
 
         # move back the unused files
         move_back(opperations)
