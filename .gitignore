@@ -7,3 +7,4 @@ audio_models/
 .ipynb_checkpoints/
 thermal_images
 *.png
+*.pickle
