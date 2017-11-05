@@ -86,12 +86,14 @@ for subject, story, fnr, frame, label in csv_generator:
     c += 1
     if (c%1000==0):
         print "Updating serials at round: {}".format(c)
-        serialize(control_group, "control_group.pickle")
-        serialize(test_group, "test_group.pickle")
-        serialize(control_group, "control_group.json")
-        serialize(test_group, "test_group.json")
-        # serialize(baseline, "baseline.pickle")
-        # serialize(baseline_count, "baseline_count.pickle")
+        serialize(control_group, "thermal_data/control_group.pickle")
+        serialize(test_group, "thermal_data/test_group.pickle")
+        serialize(baseline, "thermal_data/baseline.pickle")
+        serialize(baseline_count, "thermal_data/baseline_count.pickle")
+        serialize_json(control_group, "thermal_data/control_group.json")
+        serialize_json(test_group, "thermal_data/test_group.json")
+        serialize_json(baseline, "thermal_data/baseline.json")
+        serialize_json(baseline_count, "thermal_data/baseline_count.json")
     # print subject, story, fnr, frame, label
     features = extract_frame_features(frame)
     if features is None:
@@ -114,9 +116,12 @@ for key in baseline.keys():
 
 print "Parse complete, backing up files...."
 
-serialize(control_group, "control_group_backup.json")
-serialize(test_group, "test_group_backup.json")
-serialize(baseline, "baseline_backup.json")
-serialize(control_group, "control_group_backup.pickle")
-serialize(test_group, "test_group_backup.pickle")
-serialize(baseline, "baseline_backup.pickle")
+serialize(control_group, "thermal_data/control_group.pickle")
+serialize(test_group, "thermal_data/test_group.pickle")
+serialize(baseline, "thermal_data/baseline.pickle")
+serialize(baseline_count, "thermal_data/baseline_count.pickle")
+serialize_json(control_group, "thermal_data/control_group.json")
+serialize_json(test_group, "thermal_data/test_group.json")
+serialize_json(baseline, "thermal_data/baseline.json")
+serialize_json(baseline_count, "thermal_data/baseline_count.json")
+
