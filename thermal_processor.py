@@ -47,8 +47,19 @@ def frame_with_info_traverse(thermal_path):
             frame_nr = int(f.split("_")[1].strip(".csv")) # FL-000020_369.csv => 369
             story, label = get_label_by_frame(subject, frame_nr) # get the story number and label of the frame
             if (story == -1): continue # skip if the frame is between the stories
+            print os.path.join(root, f)
             csv_frame = pd.read_csv(os.path.join(root, f)).as_matrix() # read the csv data
             yield (subject, story, frame_nr, csv_frame, label)
+
+def dummy_traverse(thermal_path):
+    walker = os.walk(thermal_path)
+    walker.next() # skip the main dir
+    for root, dirs, files in walker:
+        if (len(files) == 0): continue # if the folder is empty or is root folder
+        for f in files:
+            print os.path.join(root, f)
+            # pd.read_csv(os.path.join(root, f)).as_matrix() # read the csv data
+            yield f
 
 def extract_frame_features(frame_1):
     frame_1[frame_1 < filter_temp] = 0 #filter all pixels lower than 30
@@ -62,21 +73,24 @@ def extract_frame_features(frame_1):
     features = np.concatenate((features, bin_places)) # add primary features to bin features
     return features
 
+def serialize(group, fi):
+    with open(fi, 'wb') as f:
+        pickle.dump(group, f)
 
 csv_generator = frame_with_info_traverse(thermal_folder)
 baseline_count = dict(zip(range(1, 25), np.zeros(24)))
 baseline = dict(zip(range(1, 25), np.zeros(24)))
 control_group = {}
 test_group = {}
-# for _ in tqdm(range(4760)):
-#     csv_generator.next()
+# dummy = dummy_traverse(thermal_folder)
+# for _ in tqdm(range(19090)):
+#     dummy.next()
 
-for _ in tqdm(range(total_num_frames)):
-    subject, story, fnr, frame, label = csv_generator.next()
+for subject, story, fnr, frame, label in csv_generator:
     # print subject, story, fnr, frame, label
     features = extract_frame_features(frame)
     if features is None:
-        print colored((subject, story, fnr, frame, label), 'red')
+        print colored((subject, story, fnr, label), 'red')
         continue
     if (story==0):
         baseline_count[subject] = baseline_count[subject] + 1
@@ -93,9 +107,6 @@ for key in baseline.keys():
     if baseline_count[key]==0: continue
     baseline[key] = baseline[key]/baseline_count[key]
 
-def serialize(group, fi):
-    with open(fi, 'wb') as f:
-        pickle.dump(group, f)
 
 serialize(control_group, "control_group.pickle")
 serialize(test_group, "test_group.pickle")
