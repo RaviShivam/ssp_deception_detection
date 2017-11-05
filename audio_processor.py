@@ -25,11 +25,11 @@ for trfile in all_files:
     os.rename(originalname, movedname)
     aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "svm", "audio_models/svm/svm", True)
     prediction = aT.fileClassification(movedname, "audio_models/svm/svm", "svm")[1][1]
-    prediction = 1 if prediction>0.5 else 0
+    # prediction = 1 if prediction>0.5 else 0
     predictions[(sub, st)] = [prediction, get_label_by_story(sub, st)]
     os.rename(movedname, originalname)
 
-with open("audio_prediction.pickle", "wb") as f:
+with open("audio_probability_prediction.pickle", "wb") as f:
     pickle.dump(predictions, f)
     # aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "knn", "audio_models/knn/knn", False)
     # aT.featureAndTrain(["data_audio/lie","data_audio/truth"], 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "randomforest", "audio_models/randomforest/randomforest", False)

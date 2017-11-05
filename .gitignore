@@ -8,3 +8,6 @@ audio_models/
 thermal_images
 *.png
 *.pickle
+*.json
+audio_control_group/
+audio_test_group/
