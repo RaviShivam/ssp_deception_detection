@@ -86,14 +86,10 @@ for subject, story, fnr, frame, label in csv_generator:
     c += 1
     if (c%1000==0):
         print "Updating serials at round: {}".format(c)
-        serialize(control_group, "thermal_data/control_group.pickle")
-        serialize(test_group, "thermal_data/test_group.pickle")
-        serialize(baseline, "thermal_data/baseline.pickle")
-        serialize(baseline_count, "thermal_data/baseline_count.pickle")
-        serialize_json(control_group, "thermal_data/control_group.json")
-        serialize_json(test_group, "thermal_data/test_group.json")
-        serialize_json(baseline, "thermal_data/baseline.json")
-        serialize_json(baseline_count, "thermal_data/baseline_count.json")
+        # serialize(control_group, "thermal_data/control_group.pickle")
+        # serialize(test_group, "thermal_data/test_group.pickle")
+        # serialize(baseline, "thermal_data/baseline.pickle")
+        # serialize(baseline_count, "thermal_data/baseline_count.pickle")
     # print subject, story, fnr, frame, label
     features = extract_frame_features(frame)
     if features is None:
@@ -109,19 +105,15 @@ for subject, story, fnr, frame, label in csv_generator:
     else:
         update_dict[(subject, story)] = np.vstack((update_dict[(subject, story)], [features, label]))
 
-
+print "number of frames processed: {}".format(c)
 for key in baseline.keys():
     if baseline_count[key]==0: continue
     baseline[key] = baseline[key]/baseline_count[key]
 
 print "Parse complete, backing up files...."
 
-serialize(control_group, "thermal_data/control_group.pickle")
-serialize(test_group, "thermal_data/test_group.pickle")
-serialize(baseline, "thermal_data/baseline.pickle")
-serialize(baseline_count, "thermal_data/baseline_count.pickle")
-serialize_json(control_group, "thermal_data/control_group.json")
-serialize_json(test_group, "thermal_data/test_group.json")
-serialize_json(baseline, "thermal_data/baseline.json")
-serialize_json(baseline_count, "thermal_data/baseline_count.json")
+serialize(control_group, "thermal_data/control_group1.pickle")
+serialize(test_group, "thermal_data/test_group1.pickle")
+serialize(baseline, "thermal_data/baseline1.pickle")
+serialize(baseline_count, "thermal_data/baseline_count1.pickle")
 
